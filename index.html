@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tendências de Pesquisa</title>
+    <script async src="https://cse.google.com/cse.js?cx=a63bd35c8af474cc8"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #results {
+            margin-top: 20px;
+            text-align: left; /* Alinha texto à esquerda */
+            max-width: 600px; /* Limita a largura dos resultados */
+            margin: auto; /* Centraliza a div de resultados */
+        }
+        .result-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .gcse-search {
+            display: none; /* Oculta a barra de pesquisa */
+        }
+    </style>
+</head>
+<body>
+    <h1>Tendências de Pesquisa</h1>
+    <div id="trend-buttons"></div>
+    <div id="results"></div>
+
+    <script>
+        // Lista de tendências fictícias
+        const trends = [
+            "Tecnologia 2024",
+            "Avanços em IA",
+            "Mudanças Climáticas",
+            "Saúde e Bem-Estar",
+            "Novas Descobertas Científicas"
+        ];
+
+        // Cria os botões de tendência
+        const trendButtonsContainer = document.getElementById('trend-buttons');
+        trends.forEach(trend => {
+            const button = document.createElement('button');
+            button.textContent = trend;
+            button.onclick = () => {
+                performSearch(trend);
+            };
+            trendButtonsContainer.appendChild(button);
+        });
+
+        // Função para buscar resultados usando o Google Custom Search
+        function performSearch(searchTerm) {
+            const encodedTerm = encodeURIComponent(searchTerm);
+            const cx = 'a63bd35c8af474cc8'; // Seu ID do mecanismo de pesquisa
+            const apiKey = 'AIzaSyAnG2Ar3LPSBWc3r9SlrOz-Ew7SuOdOYJA'; // Adicione sua chave de API aqui
+            const searchUrl = `https://www.googleapis.com/customsearch/v1?q=${encodedTerm}&cx=${cx}&key=${apiKey}`;
+
+            // Atualiza a URL para incluir a palavra-chave da pesquisa
+            window.location.hash = `gsc.q=${encodedTerm}`;
+
+            fetch(searchUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = ''; // Limpa resultados anteriores
+                    if (data.items) {
+                        data.items.forEach(item => {
+                            const resultItem = document.createElement('div');
+                            resultItem.className = 'result-item';
+                            resultItem.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><p>${item.snippet}</p>`;
+                            resultsDiv.appendChild(resultItem);
+                        });
+                    } else {
+                        resultsDiv.innerHTML = '<p>Nenhum resultado encontrado.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar os resultados:', error);
+                    document.getElementById('results').innerHTML = '<p>Erro ao buscar os resultados.</p>';
+                });
+        }
+    </script>
+</body>
+</html>
