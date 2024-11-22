@@ -15,7 +15,8 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #121212;
+            color: #e0e0e0;
             padding: 20px;
         }
 
@@ -31,23 +32,49 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            border: 2px solid #2a2a2a;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .buttons button:hover {
+            background-color: #333333;
+            transform: scale(1.1);
         }
 
         .buttons button.selected {
             background-color: #0d6efd;
             color: white;
+            border: 2px solid #0d6efd;
         }
 
-        .search-bar {
-            margin-top: 20px;
+        .search-bar input {
+            background-color: #1e1e1e;
+            border: 2px solid #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .search-bar input::placeholder {
+            color: #a0a0a0;
+        }
+
+        .search-bar button {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+        }
+
+        .search-bar button:hover {
+            background-color: #0056b3;
         }
 
         #results .result-item {
             margin-bottom: 20px;
             padding: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #333333;
             border-radius: 5px;
-            background-color: #ffffff;
+            background-color: #1e1e1e;
         }
 
         .result-item h3 a {
@@ -59,14 +86,8 @@
             text-decoration: underline;
         }
 
-        .result-thumbnail {
-            max-width: 100px;
-            margin-right: 15px;
-            border-radius: 5px;
-        }
-
         .result-snippet {
-            color: #555;
+            color: #a0a0a0;
         }
     </style>
 </head>
@@ -74,16 +95,16 @@
     <div class="container">
         <!-- Botões para selecionar a rede social -->
         <div class="buttons d-flex flex-wrap justify-content-center mb-4">
-            <button class="btn btn-outline-primary" onclick="setSearchDomain('tiktok.com', this)">
+            <button class="btn" onclick="setSearchDomain('tiktok.com', this)">
                 <i class="fab fa-tiktok"></i>
             </button>
-            <button class="btn btn-outline-primary" onclick="setSearchDomain('pinterest.com', this)">
+            <button class="btn" onclick="setSearchDomain('pinterest.com', this)">
                 <i class="fab fa-pinterest"></i>
             </button>
-            <button class="btn btn-outline-primary" onclick="setSearchDomain('youtube.com', this)">
+            <button class="btn" onclick="setSearchDomain('youtube.com', this)">
                 <i class="fab fa-youtube"></i>
             </button>
-            <button class="btn btn-outline-primary" onclick="setSearchDomain('instagram.com', this)">
+            <button class="btn" onclick="setSearchDomain('instagram.com', this)">
                 <i class="fab fa-instagram"></i>
             </button>
         </div>
@@ -94,7 +115,7 @@
                 <input type="text" id="searchInput" class="form-control" placeholder="Digite sua pesquisa...">
             </div>
             <div class="col-12 col-sm-3">
-                <button class="btn btn-primary w-100" onclick="performSearch()">
+                <button class="btn w-100" onclick="performSearch()">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -116,13 +137,9 @@
             // Atualiza a seleção visual dos botões
             if (selectedButton) {
                 selectedButton.classList.remove('selected');
-                selectedButton.classList.remove('btn-primary');
-                selectedButton.classList.add('btn-outline-primary');
             }
             selectedButton = button;
             selectedButton.classList.add('selected');
-            selectedButton.classList.remove('btn-outline-primary');
-            selectedButton.classList.add('btn-primary');
         }
 
         // Realiza a pesquisa com a API do Google Custom Search
